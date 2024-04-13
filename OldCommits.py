@@ -1,13 +1,25 @@
 import subprocess
 import subprocess
 import datetime
+import random
 
+CommitsFrom = "12/01/2022" #Make sure to put in in date format MM/DD/YYYY
+MaxCommits = 20 #Max commits per day
+MinCommits = 5 #Min commits per day
 
-commit_date_str = "12/01/2023"
+today = datetime.datetime.now().strftime("%m/%d/%Y")
+commit_date = datetime.datetime.fromisocalendar(int(today.split('/')[2]), 1, 1)
+days = (datetime.datetime.now() - datetime.datetime.strptime(CommitsFrom, "%m/%d/%Y")).days
 
-commit_date = datetime.datetime.strptime(commit_date_str, "%m/%d/%Y").strftime("%a %b %d %H:%M:%S %Y %z")
+print(days)
+for i in range(days):
+    CommitsPerDay = random.randint(MinCommits, MaxCommits)
+    for x in range(CommitsPerDay):
+        subprocess.run(["git", "commit", "--allow-empty", "-m", "Gotta love commits!", "--date", commit_date.isoformat()])
+        print(f'Commit {i*x}/{days*CommitsPerDay}')
+    commit_date += datetime.timedelta(days=1)
 
-subprocess.run(["git", "commit", "--allow-empty", "-m", commit_message, "--date", commit_date])
+print('Pushing...')
 subprocess.run(["git", "push"])
-subprocess.run(["git", "commit", "--allow-empty", "-m", commit_message, "--date", commit_date])
-subprocess.run(["git", "push"])
+print('Pushed!')
+
