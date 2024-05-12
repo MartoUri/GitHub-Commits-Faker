@@ -3,8 +3,8 @@ import subprocess
 import datetime
 import random
 
-CommitsFrom = "12/01/2022" #Make sure to put in in date format MM/DD/YYYY
-MaxCommits = 20 #Max commits per day
+CommitsFrom = "12/01/2023" #Make sure to put in in date format MM/DD/YYYY
+MaxCommits = 25 #Max commits per day
 MinCommits = 5 #Min commits per day
 
 today = datetime.datetime.now().strftime("%m/%d/%Y")
@@ -19,10 +19,10 @@ for i in range(days):
     CommitsUntilNow = sum(CommitsPerDay[:i])
     for x in range(CommitsPerDay[i]):
         subprocess.run(["git", "commit", "--allow-empty", "-m", "Gotta love commits!", "--date", commit_date.isoformat()])
-        print(f'Commit {CommitsUntilNow + x}/{SumCommits}')
+        print(f'Commit {CommitsUntilNow + x}/{SumCommits}   ---   {(CommitsUntilNow+x)/SumCommits*100:.2f}% done')
     commit_date += datetime.timedelta(days=1)
 
 print('Pushing...')
-subprocess.run(["git", "push"])
+#subprocess.run(["git", "push"])
 print('Pushed!')
 
