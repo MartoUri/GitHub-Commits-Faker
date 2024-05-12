@@ -28,6 +28,6 @@ print(f'Commit {commits}/{commits}')
 
 print('Pushing...')
 origin = repo.remotes[0]
-print('Pushed!')
 origin.push()
+print('Pushed!')
 
