@@ -14,13 +14,21 @@ days = (datetime.datetime.now() - datetime.datetime.strptime(CommitsFrom, "%m/%d
 CommitsPerDay = [random.randint(MinCommits, MaxCommits) for _ in range(days)]
 SumCommits = sum(CommitsPerDay)
 
+file = open('commits.txt', 'a')
+
 print(days)
 for i in range(days):
     CommitsUntilNow = sum(CommitsPerDay[:i])
     for x in range(CommitsPerDay[i]):
+        file.write("!")
         subprocess.run(["git", "commit", "--allow-empty", "-m", "Gotta love commits!", "--date", commit_date.isoformat()])
         print(f'Commit {CommitsUntilNow + x}/{SumCommits}   ---   {(CommitsUntilNow+x)/SumCommits*100:.2f}% done')
     commit_date += datetime.timedelta(days=1)
+
+file.close()
+file.open('commits.txt', 'w')
+file.write("Commits!")
+file.close()
 
 print('Pushing...')
 #subprocess.run(["git", "push"])
